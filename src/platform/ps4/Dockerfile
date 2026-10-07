@@ -6,7 +6,7 @@ ARG PSBC_COMMIT=e21e69960f387121428521988237744f6111f13f
 ARG OPENGNM_COMMIT=cb381c485ca7e2c1d1c34409ee4720ae2e65806c
 ARG VULKAN_HEADERS_COMMIT=8c2683390a4b10c0483e3b531555dfb841e2cd84
 
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates clang git libgl-dev libgles-dev make ninja-build pkg-config python3 python3-mako python3-pip wget xz-utils && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates clang git golang-go libgl-dev libgles-dev make ninja-build pkg-config python3 python3-mako python3-pip wget xz-utils && rm -rf /var/lib/apt/lists/*
 
 RUN wget -qO /tmp/cmake.sh https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-linux-x86_64.sh && chmod +x /tmp/cmake.sh && /tmp/cmake.sh --skip-license --prefix=/usr/local && rm -f /tmp/cmake.sh
 
@@ -15,6 +15,8 @@ RUN git clone https://github.com/google/shaderc.git /opt/shaderc && cd /opt/shad
 COPY src/platform/ps4/psbc-opengnm.patch /tmp/psbc-opengnm.patch
 
 RUN git clone https://github.com/bizkut/psbc.git /opt/psbc && cd /opt/psbc && git checkout "${PSBC_COMMIT}" && git apply /tmp/psbc-opengnm.patch && cd /opt && git clone https://github.com/PS4-OpenGNM/opengnm.git OpenGNM && cd OpenGNM && git checkout "${OPENGNM_COMMIT}" && cd /opt && git clone https://github.com/KhronosGroup/Vulkan-Headers.git Vulkan-Headers && cd Vulkan-Headers && git checkout "${VULKAN_HEADERS_COMMIT}" && cd /opt && mkdir -p opengnm-psbc/include && make -C psbc -j"$(nproc)" GNM_INCLUDE=../OpenGNM/include && install -m 0755 psbc/psbc /usr/local/bin/psbc
+
+RUN git clone https://github.com/OpenOrbis/create-fself.git /opt/create-fself && cd /opt/create-fself/cmd/create-fself && go build -o /usr/local/bin/create-fself
 
 FROM openorbisofficial/toolchain@sha256:f752d09f9d3227c729ee069f29a05450bd8fa4ef5e785c0929ab8479f7dc4e64
 
@@ -27,6 +29,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 
 COPY --from=tools /usr/local/bin/glslc /usr/local/bin/glslc
 COPY --from=tools /usr/local/bin/psbc /usr/local/bin/psbc
+COPY --from=tools /usr/local/bin/create-fself /lib/OpenOrbisSDK/bin/linux/create-fself
 
 COPY src/platform/ps4/opengnm-orbis-stubs.patch /tmp/opengnm-orbis-stubs.patch
 
