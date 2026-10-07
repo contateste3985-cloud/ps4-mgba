@@ -34,5 +34,8 @@ RUN git clone https://github.com/PS4-OpenGNM/opengnm.git /opt/opengnm && cd /opt
 
 ENV OPENORBIS=/lib/OpenOrbisSDK
 ENV OO_PS4_TOOLCHAIN=/lib/OpenOrbisSDK
+ENV OPENGNM_ROOT=/opt/opengnm
+
+RUN mkdir -p /home/mgba/src && ln -s /opt/opengnm /home/mgba/src/opengnm
 
 WORKDIR /home/mgba/src
