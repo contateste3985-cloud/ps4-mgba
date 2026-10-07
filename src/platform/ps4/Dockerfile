@@ -16,7 +16,7 @@ COPY src/platform/ps4/psbc-opengnm.patch /tmp/psbc-opengnm.patch
 
 RUN git clone https://github.com/bizkut/psbc.git /opt/psbc && cd /opt/psbc && git checkout "${PSBC_COMMIT}" && git apply /tmp/psbc-opengnm.patch && cd /opt && git clone https://github.com/PS4-OpenGNM/opengnm.git OpenGNM && cd OpenGNM && git checkout "${OPENGNM_COMMIT}" && cd /opt && git clone https://github.com/KhronosGroup/Vulkan-Headers.git Vulkan-Headers && cd Vulkan-Headers && git checkout "${VULKAN_HEADERS_COMMIT}" && cd /opt && mkdir -p opengnm-psbc/include && make -C psbc -j"$(nproc)" GNM_INCLUDE=../OpenGNM/include && install -m 0755 psbc/psbc /usr/local/bin/psbc
 
-FROM openorbisofficial/toolchain@sha256
+FROM openorbisofficial/toolchain@sha256:f752d09f9d3227c729ee069f29a05450bd8fa4ef5e785c0929ab8479f7dc4e64
 
 USER root
 
