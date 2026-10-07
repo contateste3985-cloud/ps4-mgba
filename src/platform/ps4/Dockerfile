@@ -1,4 +1,3 @@
-dockerfile
 FROM ubuntu:20.04 AS tools
 
 ARG DEBIAN_FRONTEND=noninteractive
