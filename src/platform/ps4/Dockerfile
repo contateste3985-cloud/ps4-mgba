@@ -20,8 +20,6 @@ FROM openorbisofficial/toolchain@sha256:f752d09f9d3227c729ee069f29a05450bd8fa4ef
 
 USER root
 
-RUN echo "OPENORBIS=$OPENORBIS" && echo "OO_PS4_TOOLCHAIN=$OO_PS4_TOOLCHAIN" && echo "--- procurando link.x ---" && find / -name link.x -type f 2>/dev/null | head -20
-
 ARG DEBIAN_FRONTEND=noninteractive
 ARG OPENGNM_COMMIT=cb381c485ca7e2c1d1c34409ee4720ae2e65806c
 
@@ -34,7 +32,7 @@ COPY src/platform/ps4/opengnm-orbis-stubs.patch /tmp/opengnm-orbis-stubs.patch
 
 RUN git clone https://github.com/PS4-OpenGNM/opengnm.git /opt/opengnm && cd /opt/opengnm && git checkout "${OPENGNM_COMMIT}" && git apply /tmp/opengnm-orbis-stubs.patch
 
-ENV OPENORBIS=/opt/openorbis
-ENV OO_PS4_TOOLCHAIN=/opt/openorbis
+ENV OPENORBIS=/lib/OpenOrbisSDK
+ENV OO_PS4_TOOLCHAIN=/lib/OpenOrbisSDK
 
 WORKDIR /home/mgba/src
