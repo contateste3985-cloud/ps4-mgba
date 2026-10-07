@@ -36,18 +36,26 @@ RUN git clone https://github.com/google/shaderc.git && \
 COPY src/platform/ps4/psbc-opengnm.patch /tmp/psbc-opengnm.patch
 
 RUN git clone https://github.com/bizkut/psbc.git && \
-    cd psbc && git checkout "${PSBC_COMMIT}" && \
-    git apply /tmp/psbc-opengnm.patch && cd .. && \
+    cd psbc && \
+    git checkout "${PSBC_COMMIT}" && \
+    git apply /tmp/psbc-opengnm.patch && \
+    cd .. && \
     git clone https://github.com/PS4-OpenGNM/opengnm.git OpenGNM && \
-    cd OpenGNM && git checkout "${OPENGNM_COMMIT}" && cd .. && \
+    cd OpenGNM && \
+    git checkout "${OPENGNM_COMMIT}" && \
+    cd .. && \
     git clone https://github.com/KhronosGroup/Vulkan-Headers.git Vulkan-Headers && \
-    cd Vulkan-Headers && git checkout "${VULKAN_HEADERS_COMMIT}" && cd .. && \
+    cd Vulkan-Headers && \
+    git checkout "${VULKAN_HEADERS_COMMIT}" && \
+    cd .. && \
     mkdir -p opengnm-psbc/include && \
     make -C psbc -j"$(nproc)" GNM_INCLUDE=../OpenGNM/include && \
     install -m 0755 psbc/psbc /usr/local/bin/psbc
 
 
 FROM openorbisofficial/toolchain@sha256:f752d09f9d3227c729ee069f29a05450bd8fa4ef5e785c0929ab8479f7dc4e64
+
+USER root
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG OPENGNM_COMMIT=cb381c485ca7e2c1d1c34409ee4720ae2e65806c
@@ -69,7 +77,8 @@ COPY --from=tools /usr/local/bin/psbc /usr/local/bin/psbc
 COPY src/platform/ps4/opengnm-orbis-stubs.patch /tmp/opengnm-orbis-stubs.patch
 
 RUN git clone https://github.com/PS4-OpenGNM/opengnm.git /opt/opengnm && \
-    cd /opt/opengnm && git checkout "${OPENGNM_COMMIT}" && \
+    cd /opt/opengnm && \
+    git checkout "${OPENGNM_COMMIT}" && \
     git apply /tmp/opengnm-orbis-stubs.patch
 
 ENV OPENORBIS=/opt/openorbis
