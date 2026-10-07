@@ -15,11 +15,11 @@ RUN apt-get update && \
         ninja-build \
         pkg-config \
         python3 \
+        python3-mako \
         python3-pip \
         wget \
         xz-utils && \
     rm -rf /var/lib/apt/lists/*
-
 # Install a newer CMake than Ubuntu 20.04 provides.
 # Shaderc at the pinned commit requires CMake >= 3.22.1.
 RUN wget -qO /tmp/cmake.sh \
