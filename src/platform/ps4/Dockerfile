@@ -1,3 +1,4 @@
+dockerfile
 FROM ubuntu:20.04 AS tools
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -11,6 +12,7 @@ RUN apt-get update && \
         ca-certificates \
         clang \
         git \
+        libgl-dev \
         make \
         ninja-build \
         pkg-config \
@@ -93,3 +95,4 @@ ENV OPENORBIS=/opt/openorbis
 ENV OO_PS4_TOOLCHAIN=/opt/openorbis
 
 WORKDIR /home/mgba/src
+```
