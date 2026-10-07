@@ -1,4 +1,3 @@
-```dockerfile
 FROM ubuntu:20.04 AS tools
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -94,4 +93,3 @@ ENV OPENORBIS=/opt/openorbis
 ENV OO_PS4_TOOLCHAIN=/opt/openorbis
 
 WORKDIR /home/mgba/src
-```
