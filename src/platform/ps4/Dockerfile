@@ -1,3 +1,4 @@
+```dockerfile
 FROM ubuntu:20.04 AS tools
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -20,6 +21,7 @@ RUN apt-get update && \
         wget \
         xz-utils && \
     rm -rf /var/lib/apt/lists/*
+
 # Install a newer CMake than Ubuntu 20.04 provides.
 # Shaderc at the pinned commit requires CMake >= 3.22.1.
 RUN wget -qO /tmp/cmake.sh \
@@ -92,3 +94,4 @@ ENV OPENORBIS=/opt/openorbis
 ENV OO_PS4_TOOLCHAIN=/opt/openorbis
 
 WORKDIR /home/mgba/src
+```
