@@ -24,6 +24,8 @@ RUN git clone https://github.com/bizkut/psbc.git /opt/psbc && cd /opt/psbc && gi
 
 RUN git clone https://github.com/OpenOrbis/create-fself.git /opt/create-fself && cd /opt/create-fself/cmd/create-fself && go version && go build -o /usr/local/bin/create-fself -modfile=go-linux.mod
 
+RUN git clone https://github.com/OpenOrbis/create-gp4.git /opt/create-gp4 && cd /opt/create-gp4 && go version && go build -o /usr/local/bin/create-gp4
+
 FROM openorbisofficial/toolchain@sha256:f752d09f9d3227c729ee069f29a05450bd8fa4ef5e785c0929ab8479f7dc4e64
 
 USER root
@@ -36,6 +38,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 COPY --from=tools /usr/local/bin/glslc /usr/local/bin/glslc
 COPY --from=tools /usr/local/bin/psbc /usr/local/bin/psbc
 COPY --from=tools /usr/local/bin/create-fself /lib/OpenOrbisSDK/bin/linux/create-fself
+COPY --from=tools /usr/local/bin/create-gp4 /lib/OpenOrbisSDK/bin/linux/create-gp4
 
 COPY src/platform/ps4/opengnm-orbis-stubs.patch /tmp/opengnm-orbis-stubs.patch
 
