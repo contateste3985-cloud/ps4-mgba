@@ -10,7 +10,6 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         ca-certificates \
         clang \
-        cmake \
         git \
         make \
         ninja-build \
@@ -20,6 +19,14 @@ RUN apt-get update && \
         wget \
         xz-utils && \
     rm -rf /var/lib/apt/lists/*
+
+# Install a newer CMake than Ubuntu 20.04 provides.
+# Shaderc at the pinned commit requires CMake >= 3.22.1.
+RUN wget -qO /tmp/cmake.sh \
+        https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-linux-x86_64.sh && \
+    chmod +x /tmp/cmake.sh && \
+    /tmp/cmake.sh --skip-license --prefix=/usr/local && \
+    rm -f /tmp/cmake.sh
 
 # Build shaderc / glslc
 RUN git clone https://github.com/google/shaderc.git && \
