@@ -1,0 +1,1 @@
+docker run --rm --platform linux/amd64 mgba/ps4:ci sh -c 'echo "OPENORBIS=$OPENORBIS"; echo "OO_PS4_TOOLCHAIN=$OO_PS4_TOOLCHAIN"; find / -name link.x -type f 2>/dev/null | head -20'
